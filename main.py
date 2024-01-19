@@ -5,6 +5,15 @@ import glob
 
 # Funcion unificar CSV
 def unificacionCSV(Nmaquina):
+    archivo_unificado = os.path.abspath("Registros/Maquina"+Nmaquina+".csv")
+
+    # Verifica si el archivo existe para reemplazarlo
+    if os.path.exists(archivo_unificado):
+        try:
+            os.remove(archivo_unificado)
+        except OSError as e:
+            print(f"Hubo un error de unificacion. Error: {e}")
+
     #Buscar el folder de maquina existente (falta validaciones)
     x = os.path.abspath("Registros/M0"+Nmaquina)
 
@@ -20,7 +29,7 @@ def unificacionCSV(Nmaquina):
         df_final = pd.concat([df_final, df], ignore_index=True)
     
     # Exportar la unificacion como CSV
-    df_final.to_csv(os.path.abspath("Registros/Maquina"+Nmaquina+".csv"), index=False)
+    df_final.to_csv(archivo_unificado, index=False)
     print("Unificación exitosa.")
 
     return 0
